@@ -1,7 +1,7 @@
 const express = require("express")
 const mongoose = require("mongoose")
 
-const CrewMember = require("./models/CrewMember")
+const crewRoutes = require("./routes/crew")
 
 mongoose
 	.connect(
@@ -28,27 +28,6 @@ app.use((req, res, next) => {
 	next()
 })
 
-app.get("/api/crew", (req, res, next) => {
-	CrewMember.find()
-		.then((crewMenbers) => res.status(200).json(crewMenbers))
-		.catch((error) => res.status(400).json({ error }))
-})
-
-app.get("/api/crew/:id", (req, res, next) => {
-	CrewMember.findOne({ _id: req.params.id })
-		.then((crewMember) => res.status(200).json(crewMember))
-		.catch((error) => res.status(404).json({ error }))
-})
-
-app.post("/api/crew", (req, res, next) => {
-	delete req.body._id
-	const crewMember = new CrewMember({
-		...req.body,
-	})
-	crewMember
-		.save()
-		.then(() => res.status(201).json({ message: "Nouveau membre enregistré" }))
-		.catch((error) => res.status(400).json({ error }))
-})
+app.use("/api/crew", crewRoutes)
 
 module.exports = app

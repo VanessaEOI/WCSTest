@@ -4,4 +4,4 @@ const crewMemberSchema = mongoose.Schema({
 	name: { type: String, required: true },
 })
 
-module.exports = mongoose.model("crewMember", crewMemberSchema)
+module.exports = mongoose.model("CrewMember", crewMemberSchema)

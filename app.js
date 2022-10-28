@@ -1,7 +1,7 @@
 const express = require("express")
 const mongoose = require("mongoose")
 
-const crewMember = require("./models/crewMember")
+const CrewMember = require("./models/CrewMember")
 
 mongoose
 	.connect(
@@ -29,15 +29,15 @@ app.use((req, res, next) => {
 })
 
 app.get("/api/crew", (req, res, next) => {
-	const crew = [
-		{
-			name: "Bob",
-		},
-		{
-			name: "Ron",
-		},
-	]
-	res.status(201).json(crew)
+	CrewMember.find()
+		.then((crewMenbers) => res.status(200).json(crewMenbers))
+		.catch((error) => res.status(400).json({ error }))
+})
+
+app.get("/api/crew/:id", (req, res, next) => {
+	CrewMember.findOne({ _id: req.params.id })
+		.then((crewMember) => res.status(200).json(crewMember))
+		.catch((error) => res.status(404).json({ error }))
 })
 
 app.post("/api/crew", (req, res, next) => {
